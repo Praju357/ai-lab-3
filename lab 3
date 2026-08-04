@@ -1,0 +1,29 @@
+import pandas as pd
+
+# Load dataset
+data = pd.read_csv("workload.csv")
+
+# Features and target
+concepts = data.iloc[:, :-1].values
+target = data.iloc[:, -1].values
+
+# Find-S Algorithm
+def find_s(concepts, target):
+    hypothesis = None
+
+    for i in range(len(target)):
+        if target[i] == "Yes":
+            if hypothesis is None:
+                hypothesis = concepts[i].copy()
+            else:
+                for j in range(len(hypothesis)):
+                    if hypothesis[j] != concepts[i][j]:
+                        hypothesis[j] = "?"
+
+    return hypothesis
+
+# Run algorithm
+final_hypothesis = find_s(concepts, target)
+
+print("Final Hypothesis:")
+print(final_hypothesis)
